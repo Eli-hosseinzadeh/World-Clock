@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive World Clock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="clock-container">
+        <div class="local-time" id="localTime"></div>
+        <div class="world-clocks" id="worldClocks"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.clock-container {
+    text-align: center;
+}
+
+.local-time {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.world-clocks {
+    display: flex;
+    justify-content: space-around;
+}
+function updateTime() {
+    const localTimeElement = document.getElementById('localTime');
+    const worldClocksElement = document.getElementById('worldClocks');
+    
+    const localTime = new Date();
+    localTimeElement.textContent = `Local Time: ${localTime.toLocaleTimeString()}`;
+
+    const cities = [
+        { name: 'New York', offset: -5 },
+        { name: 'London', offset: 0 },
+        { name: 'Tokyo', offset: 9 },
+        // Add more cities as needed
+    ];
+
+    worldClocksElement.innerHTML = '';
+
+    cities.forEach(city => {
+        const cityTime = new Date(localTime.getTime() + (city.offset * 60 * 60 * 1000));
+        const cityElement = document.createElement('div');
+        cityElement.textContent = `${city.name}: ${cityTime.toLocaleTimeString()}`;
+        worldClocksElement.appendChild(cityElement);
+    });
+}
+
+setInterval(updateTime, 1000);
+updateTime();
